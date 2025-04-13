@@ -1,0 +1,47 @@
+plugins {
+    id 'java'
+    id 'io.qameta.allure' version '2.11.2'
+    id "io.freefair.lombok" version "6.0.0-m2"
+}
+
+
+repositories {
+    mavenCentral()
+}
+
+
+
+dependencies {
+    implementation 'io.rest-assured:rest-assured:5.4.0'
+    implementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
+    implementation 'org.junit.jupiter:junit-jupiter-params:5.9.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
+    implementation 'io.qameta.allure:allure-junit5:2.12.1'
+    implementation 'io.qameta.allure:allure-commandline:2.12.1'
+    implementation 'io.qameta.allure:allure-java-commons:2.12.1'
+    implementation 'io.qameta.allure:allure-rest-assured:2.12.1'
+    implementation 'io.qameta.allure:allure-assertj:2.12.1'
+    compileOnly 'org.projectlombok:lombok:1.18.26'
+    annotationProcessor 'org.projectlombok:lombok:1.18.26'
+    implementation 'javax.xml.bind:jaxb-api:2.3.1'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+tasks.withType(Test) {
+    useJUnitPlatform()
+    systemProperties(System.getProperties())
+
+    testLogging {
+        lifecycle {
+            events "started", "skipped", "failed", "standard_error", "standard_out"
+            exceptionFormat "short"
+        }
+    }
+}
